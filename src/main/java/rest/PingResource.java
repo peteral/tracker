@@ -14,7 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 @RequestScoped
-@Path("/ping")
+@Path("/list")
 @Produces("application/json")
 @Consumes("application/json")
 public class PingResource {
