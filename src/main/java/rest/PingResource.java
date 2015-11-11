@@ -9,7 +9,6 @@ import javax.ws.rs.Produces;
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -26,6 +25,8 @@ public class PingResource {
 		MongoDatabase database = client.getDatabase("peteral");
 		
 		MongoCollection<Document> collection = database.getCollection("test");
+		
+		client.close();
 		
 		return collection.find().first().toJson();
 	}
