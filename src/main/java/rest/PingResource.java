@@ -20,14 +20,13 @@ public class PingResource {
 
 	@GET
 	public String ping() {
-		MongoClient client = new MongoClient("127.5.253.2");
-		
-		MongoDatabase database = client.getDatabase("peteral");
-		
-		MongoCollection<Document> collection = database.getCollection("test");
-		
-		client.close();
-		
-		return collection.find().first().toJson();
+		try (MongoClient client = new MongoClient("127.5.253.2")) {
+
+			MongoDatabase database = client.getDatabase("peteral");
+
+			MongoCollection<Document> collection = database.getCollection("test");
+
+			return collection.find().first().toJson();
+		}
 	}
 }
