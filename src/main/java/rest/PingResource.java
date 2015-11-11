@@ -27,8 +27,6 @@ public class PingResource {
 		
 		MongoCollection<Document> collection = database.getCollection("test");
 		
-		FindIterable<Document> found = collection.find();
-		
-		return found.toString();
+		return collection.find().first().toJson();
 	}
 }
