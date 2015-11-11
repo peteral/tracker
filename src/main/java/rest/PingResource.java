@@ -6,13 +6,29 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
 @RequestScoped
 @Path("/ping")
 @Produces("application/json")
 @Consumes("application/json")
 public class PingResource {
+
 	@GET
 	public String ping() {
-		return "{'ping' : 'pong'}";
+		MongoClient client = new MongoClient("127.5.253.2");
+		
+		MongoDatabase database = client.getDatabase("peteral");
+		
+		MongoCollection<Document> collection = database.getCollection("test");
+		
+		FindIterable<Document> found = collection.find();
+		
+		return found.toString();
 	}
 }
