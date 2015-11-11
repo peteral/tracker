@@ -22,12 +22,8 @@ public class PingResource {
 	@GET
 	public String ping() {
 		try (MongoClient client = new MongoClient(new MongoClientURI("mongodb://admin:hxeJAeMTszW1@127.5.253.2/?authSource=peteral"))) {
-
 			MongoDatabase database = client.getDatabase("peteral");
-			
-
 			MongoCollection<Document> collection = database.getCollection("test");
-
 			return collection.find().first().toJson();
 		}
 	}
