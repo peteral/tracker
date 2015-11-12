@@ -120,7 +120,7 @@ public class TimesResource {
 					sessions.add(session);
 				} else {
 					session.append(END, now + TIMEOUT);
-					session.append(DURATION, (now + TIMEOUT) - session.getLong(START));
+					session.append(DURATION, ((now + TIMEOUT) - session.getLong(START)) / MS_TO_MIN);
 				}
 
 				// calculate total duration
