@@ -21,22 +21,6 @@
 </div>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript">
-		$("#send").on("click", function(event) {
-			$.get("/rest/times/report/" + $("#input").val(),
-				  function( data, status ) {
-				    $( "#result" ).html( data );
-				  }
-				});
-		}));
-		
-		$("#list").on("click", function(event) {
-			$.get("/rest/times/list,
-				  function( data, status ) {
-				    $( "#result" ).html( data );
-				  }
-				});
-		}));
-</script>
+<script src="test.js"></script>
 </body>
 </html>
