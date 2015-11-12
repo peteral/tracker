@@ -15,7 +15,8 @@ $("#list").on("click", function(event) {
 		var result = $( "#result" );
 		result.html( "<table><tr><th>Client<th>Time" );
 		
-		for (entry in data.entries) {
+		for (i in data.entries) {
+			var entry = data.entries[entry];
 			result.html( result.html() + "<tr><td>" + entry.clientId + "<td>" + entry.time );
 		}
 			
