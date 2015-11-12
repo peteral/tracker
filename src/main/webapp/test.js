@@ -17,7 +17,7 @@ $("#list").on("click", function(event) {
 		
 		for (i in data.entries) {
 			var entry = data.entries[i];
-			tableData += "<tr><td>" + entry.clientId + "<td>" + new Date(entry.time.$numberLong);
+			tableData += "<tr><td>" + entry.clientId + "<td>" + new Date(parseInt(entry.time.$numberLong));
 		}
 			
 		tableData += "</table>";
