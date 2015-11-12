@@ -5,31 +5,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>OpenShift test</title>
   <style type="text/css">
-  	iframe, div {
+  	div {
   		border : 1px solid black;
   		width : 100%;
+  		height : 200px;
   	}
   </style>
 </head>
 <body>
-<iframe src="rest/times/list"></iframe>
+<input type="text" value="client-id" id="input">
+<button id="send">Send</button>
+<button id="list">List</button>
 <p>
-<input type="text" value="client-id" id="input"><button id="button">Send</button>
 <div id="result">
 </div>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-		$("#button").on("click", function(event {
-			$.ajax({
-				  url: "/rest/times/report/" + $("#input").val(),
-				  success: function( data ) {
+		$("#send").on("click", function(event {
+			$.get("/rest/times/report/" + $("#input").val(),
+				  function( data, status ) {
 				    $( "#result" ).html( data );
-				  },
-				  failure: function( err ) {
-					 $( "#result" ).html( err );
 				  }
-			  
+				});
+		}));
+		$("#list").on("click", function(event {
+			$.get("/rest/times/list,
+				  function( data, status ) {
+				    $( "#result" ).html( data );
+				  }
 				});
 		}));
 </script>
