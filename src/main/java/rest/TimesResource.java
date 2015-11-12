@@ -26,7 +26,7 @@ public class TimesResource {
 		try (MongoClient client = new MongoClient(
 				new MongoClientURI("mongodb://admin:hxeJAeMTszW1@127.5.253.2/?authSource=peteral"))) {
 
-			StringBuilder result = new StringBuilder("{ entries: [");
+			StringBuilder result = new StringBuilder("{ \"entries\": [");
 			result.append('\n');
 
 			MongoDatabase database = client.getDatabase("peteral");
