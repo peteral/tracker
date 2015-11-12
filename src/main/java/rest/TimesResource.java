@@ -23,6 +23,7 @@ import com.mongodb.client.MongoDatabase;
 @Path("/times")
 public class TimesResource {
 
+	private static final String DURATION = "duration";
 	private static final String END = "end";
 	private static final String START = "start";
 	private static final String CONNECT_STRING = "mongodb://admin:hxeJAeMTszW1@127.5.253.2/?authSource=peteral";
@@ -33,6 +34,7 @@ public class TimesResource {
 	private static final String DAY = "day";
 	private static final String SESSIONS = "sessions";
 	private static final long TIMEOUT = 2 * 60 * 1000;
+	private static final long MS_TO_MIN = 60 * 1000;
 	private SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Path("list")
@@ -105,7 +107,7 @@ public class TimesResource {
 				// look for current session within day
 				Document session = null;
 				List<Object> sessions = (List<Object>) day.get(SESSIONS);
-				for (Object obj : days) {
+				for (Object obj : sessions) {
 					Document doc = (Document) obj;
 					if (doc.getLong(END) > now) {
 						session = doc;
@@ -116,7 +118,18 @@ public class TimesResource {
 				if (session == null) {
 					session = createSession(now);
 					sessions.add(session);
+				} else {
+					session.append(END, now + TIMEOUT);
+					session.append(DURATION, (now + TIMEOUT) - session.getLong(START));
 				}
+
+				// calculate total duration
+				long total = 0L;
+				for (Object obj : sessions) {
+					Document doc = (Document) obj;
+					total += doc.getLong(DURATION);
+				}
+				day.append(DURATION, total);
 
 				collection.replaceOne(filter, clientData);
 			}
@@ -129,12 +142,12 @@ public class TimesResource {
 		List<Object> sessions = new ArrayList<>();
 		sessions.add(session);
 
-		Document day = new Document(DAY, dayString).append(SESSIONS, sessions);
+		Document day = new Document(DAY, dayString).append(DURATION, TIMEOUT / MS_TO_MIN).append(SESSIONS, sessions);
 		return day;
 	}
 
 	private Document createSession(long now) {
-		Document session = new Document(START, now).append(END, now + TIMEOUT);
+		Document session = new Document(START, now).append(END, now + TIMEOUT).append(DURATION, TIMEOUT / MS_TO_MIN);
 		return session;
 	}
 }
