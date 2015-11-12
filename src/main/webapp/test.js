@@ -12,15 +12,6 @@ $("#send").on("click", function(event) {
 $("#list").on("click", function(event) {
 	$.get("/rest/times/list")
 	.done( function( data ) {
-		var result = $( "#result" );
-		var tableData = "<table><tr><th>Client<th>Time";
-		
-		for (i in data.entries) {
-			var entry = data.entries[i];
-			tableData += "<tr><td>" + entry.clientId + "<td>" + new Date(parseInt(entry.time.$numberLong));
-		}
-			
-		tableData += "</table>";
-		result.html( tableData );
+		result.html( JSON.toString( data ) );
 	});
 });
