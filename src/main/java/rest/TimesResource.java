@@ -1,5 +1,7 @@
 package rest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javax.enterprise.context.RequestScoped;
@@ -32,10 +34,17 @@ public class TimesResource {
 			MongoDatabase database = client.getDatabase("peteral");
 			MongoCollection<Document> collection = database.getCollection("tracking");
 
+			List<String> entries = new ArrayList<>();
 			collection.find().forEach((Consumer<Document>) doc -> {
-				result.append(doc.toJson());
-				result.append(",\n");
+				entries.add(doc.toJson());
 			});
+
+			for (int i = 0; i < entries.size(); i++) {
+				result.append(entries.get(i));
+				if (i < (entries.size() - 1)) {
+					result.append(",\n");
+				}
+			}
 
 			result.append('\n');
 			result.append("]}");
