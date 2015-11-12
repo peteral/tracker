@@ -12,6 +12,6 @@ $("#send").on("click", function(event) {
 $("#list").on("click", function(event) {
 	$.get("/rest/times/list")
 	.done( function( data ) {
-		$( "#result" ).html( JSON.toString( data ) );
+		$( "#result" ).html( JSON.stringify( data ) );
 	});
 });
