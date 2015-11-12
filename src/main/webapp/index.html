@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>OpenShift test</title>
+  <title>Gaming time recorder</title>
   <style type="text/css">
   	div {
   		border : 1px solid black;
@@ -22,14 +22,15 @@
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-		$("#send").on("click", function(event {
+		$("#send").on("click", function(event) {
 			$.get("/rest/times/report/" + $("#input").val(),
 				  function( data, status ) {
 				    $( "#result" ).html( data );
 				  }
 				});
 		}));
-		$("#list").on("click", function(event {
+		
+		$("#list").on("click", function(event) {
 			$.get("/rest/times/list,
 				  function( data, status ) {
 				    $( "#result" ).html( data );
