@@ -52,7 +52,7 @@ public class TimesResource {
 			MongoDatabase database = client.getDatabase("peteral");
 			MongoCollection<Document> collection = database.getCollection("tracking");
 
-			collection.insertOne(new Document().append("client-id", id).append("time", System.currentTimeMillis()));
+			collection.insertOne(new Document().append("clientId", id).append("time", System.currentTimeMillis()));
 		}
 	}
 }
