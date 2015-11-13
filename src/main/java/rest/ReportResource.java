@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
@@ -24,7 +25,7 @@ import com.mongodb.client.MongoDatabase;
 @SuppressWarnings("unchecked")
 public class ReportResource {
 
-	private SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 
 	@GET
 	@Path("report/{id}")

@@ -5,6 +5,7 @@ import static rest.Constants.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import javax.enterprise.context.RequestScoped;
@@ -26,7 +27,7 @@ import com.mongodb.client.MongoDatabase;
 @SuppressWarnings("unchecked")
 public class CsvResource {
 
-	private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd-HHmm");
+	private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd-HHmm", Locale.GERMANY);
 
 	@Path("csv")
 	@Produces("text/csv")
@@ -56,7 +57,7 @@ public class CsvResource {
 
 			ResponseBuilder response = Response.ok(result.toString());
 			response.header("Content-Disposition",
-					"attachment; filename=\"tracking-" + format.format(new Date()) + "\"");
+					"attachment; filename=\"tracking-" + format.format(new Date()) + ".csv\"");
 
 			return response.build();
 		}
