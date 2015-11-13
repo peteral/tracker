@@ -79,6 +79,8 @@ public class TimesResource {
 			Document clientData = collection.find(filter).first();
 
 			long now = System.currentTimeMillis();
+			// FIXME server running in the US - need to change time zone to EUW
+			// here
 			String dayString = dayFormat.format(new Date());
 
 			if (clientData == null) {
