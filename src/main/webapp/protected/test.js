@@ -17,7 +17,7 @@ $("#list").on("click", function(event) {
 		for (i in data.entries) {
 			var client = data.entries[i];
 			
-			result += "<li>" + client.clientId + "<ul>";
+			result += "<li>" + client.clientId + " (" + client.duration.$numberLong + " min)<ul>";
 			
 			for (j in client.days) {
 				var day = client.days[j];

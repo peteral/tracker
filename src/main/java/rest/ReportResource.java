@@ -38,62 +38,83 @@ public class ReportResource {
 
 			long now = System.currentTimeMillis();
 			// FIXME server running in the US - need to change time zone to EUW
-			// here
+			// here, otherwise sessions will be assigned to wrong days
 			String dayString = dayFormat.format(new Date());
 
 			if (clientData == null) {
-				Document day = createDay(now, dayString);
-				List<Object> days = new ArrayList<>();
-				days.add(day);
-				clientData = new Document(CLIENT_ID, id).append(DAYS, days);
+				clientData = createNewClient(id, now, dayString);
 				collection.insertOne(clientData);
 			} else {
-				// look for current day
-				List<Object> days = (List<Object>) clientData.get(DAYS);
-				Document day = null;
-				for (Object obj : days) {
-					Document doc = (Document) obj;
-					if (dayString.equals(doc.get(DAY))) {
-						day = doc;
-						break;
-					}
-				}
+				Document day = findCurrentDay(clientData, now, dayString);
 
-				if (day == null) {
-					day = createDay(now, dayString);
-					days.add(day);
-				}
+				updateCurrentSession(now, day);
 
-				// look for current session within day
-				Document session = null;
-				List<Object> sessions = (List<Object>) day.get(SESSIONS);
-				for (Object obj : sessions) {
-					Document doc = (Document) obj;
-					if (doc.getLong(END) > now) {
-						session = doc;
-						break;
-					}
-				}
+				updateDuration(day, SESSIONS);
 
-				if (session == null) {
-					session = createSession(now);
-					sessions.add(session);
-				} else {
-					session.append(END, now + TIMEOUT);
-					session.append(DURATION, ((now + TIMEOUT) - session.getLong(START)) / MS_TO_MIN);
-				}
-
-				// calculate total duration
-				long total = 0L;
-				for (Object obj : sessions) {
-					Document doc = (Document) obj;
-					total += doc.getLong(DURATION);
-				}
-				day.append(DURATION, total);
+				updateDuration(clientData, DAYS);
 
 				collection.replaceOne(filter, clientData);
 			}
 		}
+	}
+
+	private Document createNewClient(String id, long now, String dayString) {
+		Document clientData;
+		Document day = createDay(now, dayString);
+		List<Object> days = new ArrayList<>();
+		days.add(day);
+		clientData = new Document(CLIENT_ID, id).append(DAYS, days);
+		return clientData;
+	}
+
+	private List<Object> updateCurrentSession(long now, Document day) {
+		Document session = null;
+		List<Object> sessions = (List<Object>) day.get(SESSIONS);
+		for (Object obj : sessions) {
+			Document doc = (Document) obj;
+			if (doc.getLong(END) > now) {
+				session = doc;
+				break;
+			}
+		}
+
+		if (session == null) {
+			session = createSession(now);
+			sessions.add(session);
+		} else {
+			session.append(END, now + TIMEOUT);
+			session.append(DURATION, ((now + TIMEOUT) - session.getLong(START)) / MS_TO_MIN);
+		}
+		return sessions;
+	}
+
+	private Document findCurrentDay(Document clientData, long now, String dayString) {
+		List<Object> days = (List<Object>) clientData.get(DAYS);
+		Document day = null;
+		for (Object obj : days) {
+			Document doc = (Document) obj;
+			if (dayString.equals(doc.get(DAY))) {
+				day = doc;
+				break;
+			}
+		}
+
+		if (day == null) {
+			day = createDay(now, dayString);
+			days.add(day);
+		}
+		return day;
+	}
+
+	private void updateDuration(Document day, String key) {
+		List<Object> sessions = (List<Object>) day.get(key);
+
+		long total = 0L;
+		for (Object obj : sessions) {
+			Document doc = (Document) obj;
+			total += doc.getLong(DURATION);
+		}
+		day.append(DURATION, total);
 	}
 
 	private Document createDay(long now, String dayString) {
