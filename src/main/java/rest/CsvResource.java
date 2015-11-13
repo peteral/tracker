@@ -35,7 +35,7 @@ public class CsvResource {
 	public Response list() {
 		try (MongoClient client = new MongoClient(new MongoClientURI(CONNECT_STRING))) {
 
-			StringBuilder result = new StringBuilder("Client, Day, Minutes");
+			StringBuilder result = new StringBuilder("Client; Day; Minutes");
 			result.append('\n');
 
 			MongoDatabase database = client.getDatabase(DATABASE_NAME);
@@ -47,9 +47,9 @@ public class CsvResource {
 				for (Object obj : days) {
 					Document day = (Document) obj;
 					result.append(clientId);
-					result.append(", ");
+					result.append("; ");
 					result.append(day.getString(DAY));
-					result.append(", ");
+					result.append("; ");
 					result.append(day.getLong(DURATION));
 					result.append('\n');
 				}
