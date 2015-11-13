@@ -39,3 +39,7 @@ $("#list").on("click", function(event) {
 		$( "#result" ).html( result );
 	});
 });
+
+$("#csv").on("click", function(event) {
+	window.location = "/rest/protected/csv";
+});
