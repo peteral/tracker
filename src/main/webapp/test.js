@@ -21,7 +21,7 @@ $("#list").on("click", function(event) {
 			
 			for (j in client.days) {
 				var day = client.days[j];
-				result += "<li>" + day.day + " (" + day.duration.$numberLong + " min)<ul>";
+				result += "<li>" + day.day + " (" + day.duration.$numberLong + " min) <ul>";
 				
 				for (k in day.sessions) {
 					var session = day.sessions[k];
