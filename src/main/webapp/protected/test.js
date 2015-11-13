@@ -3,14 +3,14 @@
  */
 
 $("#send").on("click", function(event) {
-	$.get("/rest/times/report/" + $("#input").val())
+	$.get("/rest/public/report/" + $("#input").val())
 	.done(function( data ) {
 	    $( "#result" ).html( "Reported..." );
 	});
 });
 
 $("#list").on("click", function(event) {
-	$.get("/rest/times/list")
+	$.get("/rest/protected/list")
 	.done( function( data ) {
 		var result = "<ul>";
 		
