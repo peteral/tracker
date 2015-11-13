@@ -21,6 +21,7 @@ import com.mongodb.client.MongoDatabase;
 
 @RequestScoped
 @Path("/public")
+@SuppressWarnings("unchecked")
 public class ReportResource {
 
 	private SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -44,25 +45,22 @@ public class ReportResource {
 			if (clientData == null) {
 				clientData = createNewClient(id, now, dayString);
 				collection.insertOne(clientData);
-			} else {
-				Document day = findCurrentDay(clientData, now, dayString);
-
-				updateCurrentSession(now, day);
-
-				updateDuration(day, SESSIONS);
-
-				updateDuration(clientData, DAYS);
-
-				collection.replaceOne(filter, clientData);
 			}
+
+			Document day = findCurrentDay(clientData, now, dayString);
+
+			updateCurrentSession(now, day);
+
+			updateDuration(day, SESSIONS);
+			updateDuration(clientData, DAYS);
+
+			collection.replaceOne(filter, clientData);
 		}
 	}
 
 	private Document createNewClient(String id, long now, String dayString) {
 		Document clientData;
-		Document day = createDay(now, dayString);
 		List<Object> days = new ArrayList<>();
-		days.add(day);
 		clientData = new Document(CLIENT_ID, id).append(DAYS, days);
 		return clientData;
 	}
@@ -106,15 +104,15 @@ public class ReportResource {
 		return day;
 	}
 
-	private void updateDuration(Document day, String key) {
-		List<Object> sessions = (List<Object>) day.get(key);
+	private void updateDuration(Document document, String key) {
+		List<Object> entries = (List<Object>) document.get(key);
 
 		long total = 0L;
-		for (Object obj : sessions) {
+		for (Object obj : entries) {
 			Document doc = (Document) obj;
 			total += doc.getLong(DURATION);
 		}
-		day.append(DURATION, total);
+		document.append(DURATION, total);
 	}
 
 	private Document createDay(long now, String dayString) {
