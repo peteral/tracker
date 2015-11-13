@@ -48,7 +48,6 @@ public class ReportResource {
 			}
 
 			Document day = findCurrentDay(clientData, now, dayString);
-
 			updateCurrentSession(now, day);
 
 			updateDuration(day, SESSIONS);
