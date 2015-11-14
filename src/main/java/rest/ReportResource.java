@@ -12,6 +12,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.bson.Document;
 
@@ -29,7 +31,7 @@ public class ReportResource {
 
 	@GET
 	@Path("report/{id}")
-	public void report(@PathParam("id") String id) {
+	public Response report(@PathParam("id") String id) {
 		try (MongoClient client = new MongoClient(new MongoClientURI(CONNECT_STRING))) {
 
 			MongoDatabase database = client.getDatabase(DATABASE_NAME);
@@ -39,8 +41,6 @@ public class ReportResource {
 			Document clientData = collection.find(filter).first();
 
 			long now = System.currentTimeMillis();
-			// FIXME server running in the US - need to change time zone to EUW
-			// here, otherwise sessions will be assigned to wrong days
 			String dayString = dayFormat.format(new Date());
 
 			if (clientData == null) {
@@ -55,6 +55,11 @@ public class ReportResource {
 			updateDuration(clientData, DAYS);
 
 			collection.replaceOne(filter, clientData);
+
+			return Response.ok("OK").build();
+		} catch (Exception e) {
+			ResponseBuilder builder = Response.serverError();
+			return builder.build();
 		}
 	}
 

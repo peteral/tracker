@@ -5,7 +5,7 @@
 $("#send").on("click", function(event) {
 	$.get("/rest/public/report/" + $("#input").val())
 	.done(function( data ) {
-	    $( "#result" ).html( "Reported..." );
+	    $( "#result" ).html( data );
 	});
 });
 
