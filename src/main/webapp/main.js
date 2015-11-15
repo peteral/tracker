@@ -31,6 +31,7 @@ list = function() {
 		
 		result += "</table>";
 		$( "#result" ).html( result );
+		$('.tree').treegrid();
 	});
 };
 
@@ -43,6 +44,5 @@ $("#csv").on("click", function(event) {
 });
 
 $( document ).ready(function () {
-	$('.tree').treegrid();
 	list();
 });
