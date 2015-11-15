@@ -15,15 +15,56 @@
   </style>
 </head>
 <body>
-<input type="text" value="client-id" id="input">
-<button id="send">Send</button>
-<button id="list">List</button>
-<button id="csv">Download .csv</button>
+<h1>Ausgabe der Spielzeiten</h1>
+<button id="list">Aktualisieren</button>
+<button id="csv">Als .csv herunterladen</button>
 <p>
+<hr>
 <div id="result">
 </div>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="/protected/test.js"></script>
+<script>
+list = function() {
+	$.get("/rest/protected/list")
+	.done( function( data ) {
+		var result = "<ul>";
+		
+		for (i in data.entries) {
+			var client = data.entries[i];
+			
+			result += "<li>" + client.clientId + " (" + client.duration.$numberLong + " min)<ul>";
+			
+			for (j in client.days) {
+				var day = client.days[j];
+				result += "<li>" + day.day + " (" + day.duration.$numberLong + " min) <ul>";
+				
+				for (k in day.sessions) {
+					var session = day.sessions[k];
+					result += "<li>" + session.duration.$numberLong + " min (" + 
+					                   new Date(parseInt(session.start.$numberLong)) + " - " + 
+					                   new Date(parseInt(session.end.$numberLong)) + ")";
+				}
+				result += "</ul></li>";
+			}
+			
+			result += "</ul></li>";
+		}
+		
+		result += "</ul>";
+		$( "#result" ).html( result );
+	});
+};
+
+$("#list").on("click", function(event) { 
+	list(); 
+});
+
+$("#csv").on("click", function(event) {
+	window.location = "/rest/protected/csv";
+});
+
+$( document ).ready(list);
+</script>
 </body>
 </html>
