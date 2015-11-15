@@ -2,13 +2,12 @@ list = function() {
 	$.get("/rest/protected/list")
 	.done( function( data ) {
 		var result = "<table class='tree'>";
-		result += "<tr class='treegrid-1'><td>Aufgezeichnete Zeiten:</td></tr>";
-		var id = 2;
+		var id = 1;
 		for (i in data.entries) {
 			var client = data.entries[i];
 			var clientId = id++;
 			
-			result += "<tr class='treegrid-" + clientId  + " treegrid-parent-1'><td>" + client.clientId + 
+			result += "<tr class='treegrid-" + clientId  + "'><td>" + client.clientId + 
 				"</td><td>" + client.duration.$numberLong + " min</td></tr>";
 			
 			for (j in client.days) {
@@ -32,6 +31,7 @@ list = function() {
 		result += "</table>";
 		$( "#result" ).html( result );
 		$('.tree').treegrid();
+		$('.tree').treegrid('collapseAll');
 	});
 };
 
