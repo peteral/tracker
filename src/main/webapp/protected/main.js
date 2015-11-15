@@ -25,8 +25,8 @@ list = function() {
 					
 					result += "<tr class='treegrid-" + sessionId + " treegrid-parent-" + dayId + "'><td></td><td>" + session.duration.$numberLong + 
 						" min</td><td>" + 
-	                    start.getDate() + "." + start.getMonth() + "." + start.getFullYear() + "</td><td>" + 
-	                    end.getDate() + "." + end.getMonth() + "." + end.getFullYear()+ "</td></tr>";
+	                    start.getHours() + ":" + start.getMinutes() + "</td><td>" + 
+	                    end.getHours() + ":" + end.getMinutes() + "</td></tr>";
 				}
 			}
 			
