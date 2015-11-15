@@ -7,7 +7,7 @@ list = function() {
 			var client = data.entries[i];
 			var clientId = id++;
 			
-			result += "<tr class='treegrid-" + clientId  + "'><td>" + client.clientId + 
+			result += "<tr class='person-row treegrid-" + clientId  + "'><td>" + client.clientId + 
 				"</td><td>" + client.duration.$numberLong + " min</td></tr>";
 			
 			for (j in client.days) {
@@ -19,10 +19,14 @@ list = function() {
 				for (k in day.sessions) {
 					var session = day.sessions[k];
 					var sessionId = id++;
+					
+					var start = new Date(parseInt(session.start.$numberLong));
+					var end = new Date(parseInt(session.end.$numberLong));
+					
 					result += "<tr class='treegrid-" + sessionId + " treegrid-parent-" + dayId + "'><td></td><td>" + session.duration.$numberLong + 
 						" min</td><td>" + 
-	                   new Date(parseInt(session.start.$numberLong)) + "</td><td>" + 
-	                   new Date(parseInt(session.end.$numberLong)) + "</td></tr>";
+	                    start.getDate() + "." + start.getMonth() + "." + start.getFullYear() + "</td><td>" + 
+	                    end.getDate() + "." + end.getMonth() + "." + end.getFullYear()+ "</td></tr>";
 				}
 			}
 			
