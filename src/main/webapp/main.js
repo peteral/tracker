@@ -20,7 +20,7 @@ list = function() {
 				for (k in day.sessions) {
 					var session = day.sessions[k];
 					var sessionId = id++;
-					result += "<tr class='treegrid-" + sessionId + " treegrid-parent-" + dayId + "'><td>" + session.duration.$numberLong + 
+					result += "<tr class='treegrid-" + sessionId + " treegrid-parent-" + dayId + "'><td></td><td>" + session.duration.$numberLong + 
 						" min</td><td>" + 
 	                   new Date(parseInt(session.start.$numberLong)) + "</td><td>" + 
 	                   new Date(parseInt(session.end.$numberLong)) + "</td></tr>";
