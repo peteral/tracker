@@ -1,3 +1,17 @@
+numberToString = function(num, chars) {
+	var res = "" + num;
+	
+	while (length(res) < chars) {
+		res = "0" + res;
+	}
+	
+	return res;
+}
+
+formatTime = function(time) {
+	return numberToString(time.getHours(), 2) + ":" + numberToString(time.getMinutes(), 2);
+}
+
 list = function() {
 	$.get("/rest/protected/list")
 	.done( function( data ) {
@@ -23,10 +37,10 @@ list = function() {
 					var start = new Date(parseInt(session.start.$numberLong));
 					var end = new Date(parseInt(session.end.$numberLong));
 					
-					result += "<tr class='treegrid-" + sessionId + " treegrid-parent-" + dayId + "'><td></td><td>" + session.duration.$numberLong + 
-						" min</td><td>" + 
-	                    start.getHours() + ":" + start.getMinutes() + "</td><td>" + 
-	                    end.getHours() + ":" + end.getMinutes() + "</td></tr>";
+					result += "<tr class='treegrid-" + sessionId + " treegrid-parent-" + dayId + "'><td>" +
+						formatTime(start) + " - " + formatTime(end) +
+						"</td><td>" + session.duration.$numberLong + 
+						" min</td></tr>";
 				}
 			}
 			
