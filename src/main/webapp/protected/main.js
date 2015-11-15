@@ -1,7 +1,6 @@
 numberToString = function(num, chars) {
 	var res = "" + num;
-	
-	while (length(res) < chars) {
+	while (res.length < chars) {
 		res = "0" + res;
 	}
 	
