@@ -52,14 +52,14 @@ list = function() {
 	});
 };
 
-$("#list").on("click", function(event) { 
-	list(); 
-});
-
-$("#csv").on("click", function(event) {
-	window.location = "/rest/protected/csv";
-});
-
 $( document ).ready(function () {
+	$("#list").on("click", function(event) { 
+		list(); 
+	});
+
+	$("#csv").on("click", function(event) {
+		window.location = "/rest/protected/csv";
+	});
+	
 	list();
 });
