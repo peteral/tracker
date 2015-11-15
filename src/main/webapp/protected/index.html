@@ -5,7 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Ausgabe der Spielzeiten</title>
   <link rel="stylesheet" href="/treegrid/css/jquery.treegrid.css">
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="/treegrid/js/jquery.treegrid.js"></script>
 </head>
+
 <body>
 <h1>Ausgabe der Spielzeiten</h1>
 <button id="list">Aktualisieren</button>
@@ -15,18 +18,13 @@
 <div id="result">
 </div>
 
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="/treegrid/js/jquery.treegrid.js"></script>
-
 <script>
-$('.tree').treegrid();
-
 list = function() {
 	$.get("/rest/protected/list")
 	.done( function( data ) {
 		var result = "<table class='tree'>";
 		result += "<tr class='treegrid-1'><td>Aufgezeichnete Zeiten:</td></tr>";
-		var id = 1;
+		var id = 2;
 		for (i in data.entries) {
 			var client = data.entries[i];
 			var clientId = id++;
@@ -65,7 +63,10 @@ $("#csv").on("click", function(event) {
 	window.location = "/rest/protected/csv";
 });
 
-$( document ).ready(list);
+$( document ).ready(
+	$('.tree').treegrid();
+	list();
+);
 </script>
 </body>
 </html>
